@@ -19,7 +19,7 @@ end
 vim.cmd [[
   augroup packer_user_config
     autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerSync
+    autocmd BufWritePost plugins.lua source <afile> | PackerInstall
   augroup end
 ]]
 
@@ -53,15 +53,21 @@ return packer.startup(function(use)
   use "nvim-lualine/lualine.nvim"
   use "akinsho/toggleterm.nvim"
   use "ahmedkhalf/project.nvim"
-  use "lewis6991/impatient.nvim"
+  use "lewis6991/impatient.nvim" -- Improve startup time for Neovim
   use "lukas-reineke/indent-blankline.nvim"
   use "goolord/alpha-nvim"
   use "antoinemadec/FixCursorHold.nvim" -- This is needed to fix lsp doc highlight
-  use "folke/which-key.nvim"
+  use "folke/which-key.nvim" -- Displays a popup with possible keybindings of the command you started typing.
+  use "farmergreg/vim-lastplace" -- Intelligently reopen files at your last edit position in Vim.
+  use "chaoren/vim-wordmotion"
+  use "tpope/vim-abolish" -- easily search for, substitute, and abbreviate multiple variants of a word
 
   -- Colorschemes
   -- use "lunarvim/colorschemes" -- A bunch of colorschemes you can try out
   use "lunarvim/darkplus.nvim"
+  use "folke/tokyonight.nvim"
+  use { "briones-gabriel/darcula-solid.nvim", requires = "rktjmp/lush.nvim" }
+  use { "catppuccin/nvim", as = "catppuccin" }
 
   -- cmp plugins
   use "hrsh7th/nvim-cmp" -- The completion plugin
@@ -70,6 +76,7 @@ return packer.startup(function(use)
   use "hrsh7th/cmp-cmdline" -- cmdline completions
   use "saadparwaiz1/cmp_luasnip" -- snippet completions
   use "hrsh7th/cmp-nvim-lsp"
+  use "andersevenrud/cmp-tmux"
 
   -- snippets
   use "L3MON4D3/LuaSnip" --snippet engine
@@ -80,9 +87,23 @@ return packer.startup(function(use)
   use "williamboman/nvim-lsp-installer" -- simple to use language server installer
   use "tamago324/nlsp-settings.nvim" -- language server settings defined in json for
   use "jose-elias-alvarez/null-ls.nvim" -- for formatters and linters
+  use "p00f/clangd_extensions.nvim" -- Clangd's off-spec features for neovim's LSP client
 
   -- Telescope
   use "nvim-telescope/telescope.nvim"
+
+  -- Trouble
+  use {
+    "folke/trouble.nvim",
+    requires = "kyazdani42/nvim-web-devicons",
+    config = function()
+      require("trouble").setup {
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+      }
+    end
+  }
 
   -- Treesitter
   use {
@@ -93,6 +114,12 @@ return packer.startup(function(use)
 
   -- Git
   use "lewis6991/gitsigns.nvim"
+
+  -- tmux
+  use "christoomey/vim-tmux-navigator"
+
+  -- editing
+  use "justinmk/vim-sneak"
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
